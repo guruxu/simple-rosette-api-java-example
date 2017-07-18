@@ -1,0 +1,25 @@
+<project xmlns:ivy="antlib:org.apache.ivy.ant"
+         name="Simple Rosette API Example" basedir="." default="run">
+    <target name="resolve">
+        <ivy:retrieve />
+        <ivy:cachepath pathid="classpath"/>
+    </target>
+    <target name="clean">
+        <delete dir="ant-build"/>
+        <delete dir="lib"/>
+        <ivy:cleancache />
+    </target>
+    <target name="compile" depends="resolve">
+        <mkdir dir="ant-build"/>
+        <javac srcdir="src/main/java" destdir="ant-build" includeantruntime="false" classpathref="classpath"/>
+    </target>
+    <target name="run" depends="compile">
+      <java classname="Example" failonerror="true">
+        <sysproperty key="api.key" value="${api.key}"/>
+        <classpath>
+          <path location="ant-build"/>
+          <path refid="classpath"/>
+        </classpath>
+      </java>
+    </target>
+</project>
